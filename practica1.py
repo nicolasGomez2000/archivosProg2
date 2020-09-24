@@ -2,9 +2,11 @@
 def n_pares(n):
     if n == 1:
         print(2)
+        return
     else:
         print(2*n)
-        n_pares(n-1) 
+        return n_pares(n-1) 
+print(n_pares(20))
    
 
 #n_pares(20)
@@ -12,16 +14,17 @@ def pares_intervalo(n,m):
     c = (m//2)*2+2
     if n == 0:
         print(2*c)
+        return 
     else:
         print(2*( n + c))
-        pares_intervalo(n-1,m) 
-pares_intervalo(5,11)
+        return pares_intervalo(n-1,m) 
+#pares_intervalo(5,11)
 
 def suma_naturales(n):
     if n == 1:
         return n
     return n + suma_naturales(n-1)
-print(suma_naturales(10))
+#print(suma_naturales(10))
 
 def sumaNatIntervalo(n,m):
     """suma todos los numeros dentro del intervalo n y m sin incluirlos """
@@ -58,6 +61,6 @@ def calculadora(a,b):
     else:
         print("opcion invalida. Intente nuevamente")
         calculadora(a,b)
-calculadora(10,5)
+#calculadora(10,5)
 
     
