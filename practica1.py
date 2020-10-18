@@ -1,4 +1,6 @@
+
 #primeros numeros n pares
+#n_pares: int -> None
 def n_pares(n):
     if n == 1:
         print(2)

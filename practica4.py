@@ -109,8 +109,65 @@ def test8():
     assert busquedaDicotomica([6,7,8,9],6) == True
     assert busquedaDicotomica([6,7,5,8,9],6) == None
 
+def caracteres(s):
+    if len(s) == 0:
+        return None
+    print(s[len(s)-1])
+
+    return caracteres(s[:-1])
+
+def test9():
+    assert caracteres("hola") == None
+    assert caracteres("como estas") == None
+    assert caracteres("mi nombre es: ") == None
 
 
+def contar(s,c):
+    if len(s) == 0:
+        return 0
+    if s[0] == c:
+        return 1 + contar(s[1:],c)
+    else: return contar(s[1:],c)
+
+def test10():
+    assert contar("hola","g") == 0
+    assert contar("como estas","o") == 2
+    assert contar("mi nombre es: "," ") == 3
+
+def vocales(s):
+    if len(s) == 0:
+        return 0
+    if s[0] in ['a','e','i','o','u','A','E','I','O','U']:
+        return 1 + vocales(s[1:])
+    else: return vocales(s[1:])
+
+def test11():
+    assert vocales("hola") == 2
+    assert vocales("como estas") == 4
+    assert vocales("mi nombre es: ") == 4
+    assert vocales("cOmo AndAs") == 4
+
+def palabras(s,letras = 5):
+    # print(len(s))
+    i = 0
+    while  i <= len(s)-1 and s[i] != " ":
+        i += 1
+
+    cl = s[0:i]
+
+    if  cl == s and len(s) < letras:
+        return 0
+    elif cl == s and len(s)>= letras:
+        return 1
+    elif len(cl) < letras:
+        return palabras(s[i+1:],letras)
+    else: return 1 + palabras(s[i+1:],letras)
+    
+def test12():
+    assert palabras("hola") == 0
+    assert palabras("como estas") == 1
+    assert palabras("mi nombre es: ") == 1
+    assert palabras("hola adios nombre apellido que telefono direccion") == 5
 
 
     
