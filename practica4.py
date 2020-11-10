@@ -1,18 +1,10 @@
 #practica 4
+#posicionesMultiplo: List(x) int -> List(x) 
+#Recibe una lista y un nuemro, devuelve los elementos 
+#de posiciones multiplo de n de la lista
 def posicionesMultiplo(l,n):
-    l_pos = list()
-    i = 0
-    lr = list()
+    return [l[i] for i in range(0,len(l)) if i % n == 0]
 
-    while n*i <= len(l)-1:      #creamos la lista con los multiplos
-        l_pos.append(n*i)
-        i += 1
-
-    for i in range(0,len(l)):     #guardamos las posiciones en l que esten en l_pos
-        if i in l_pos:
-            lr.append(l[i])
-
-    return lr
 
 def test1():
     assert posicionesMultiplo([1,2,3,4,5,6,7],2) == [1,3,5,7]
@@ -22,7 +14,6 @@ def acum_sum(l):
     if len(l) == 2:
         return [l[0]] + [l[0] + l[1]]
     return [l[0]] + acum_sum([l[0] + l[1]] + l[2:])
-
 
 def test2():
     assert acum_sum([1,2,3]) == [1,3,6]
@@ -35,21 +26,48 @@ def test3():
     assert elimina([1,3,4,5]) == [3,4]
     assert elimina([5,3,2,1,8]) == [3,2,1]
 
+#son_numeros: list(x) -> Boolean
+def son_numeros(l):
+    for i in l:
+        if type(i) is not int:
+            return False
+    return True
 
-#HACERLO PARA LETRAS
-def ord_asc(l):
+#son_letras: list(x) -> Boolean
+def son_letras(l):
+    for i in l:
+        if not str.isalpha(str(i)):
+            return False
+    return True
+ 
+            
+def ord_val(x):
+    l = 'abcdefghijklmnñopqrstuvwxyz'
+    if str.isalpha(str(x)):
+        return l.index(x)
+    else: return x
+
+def ver_ord(l):
     if len(l) == 1:
         return True
     elif l == []:
         return False 
-    elif l[0] > l[1] :
+    elif ord_val(l[0]) > ord_val(l[1]):
         return False
-    elif l[0] < l[1]:
+    elif ord_val(l[0]) < ord_val(l[1]):
         return ord_asc(l[1:])
+
+def ord_asc(l):
+    if son_numeros(l) or son_letras(l):
+        return ver_ord(l)
+    print("No se puede verificar el orden de la lista ingresada.")
+    return False
 
 def test4():
     assert ord_asc([1,3,4,5]) == True
     assert ord_asc([5,3,2,1,8]) == False
+    assert ord_asc(['x','g','f','f','a']) == False
+    assert ord_asc(['a','b','c','d','e']) == True
     assert ord_asc([]) == False
     assert ord_asc([1]) == True
 
@@ -68,6 +86,8 @@ def test5():
     assert duplicado([1,2,3,4,1]) == True
     assert duplicado(["a" , "b" ,"c"]) == False
     assert duplicado([1,"w",3,"x",1,"x"]) == True
+    assert duplicado(["w",3,"x",1,"x","x"]) == True
+
 
 def elim_dup(l):
     if len(l) == 1 or l == []:
@@ -91,23 +111,22 @@ def test7():
     assert distintos([1,"w",3,"x",1,"x"]) == 2
     
 #funcion hecha para numeros se hace con letras. chequear si es orde
-def busquedaDicotomica(l,n):
+
+def busquedaDicotomica(l,s):
     if l == []:
         return False
-    elif ord_asc(l):
-        if l[(len(l)-1)//2] == n:
+    else:
+        if l[(len(l)-1)//2][0] == s[0]:
             return True
-        elif l[(len(l)-1)//2] > n:
-            return busquedaDicotomica(l[:(len(l)-1)//2],n)
-        elif l[(len(l)-1)//2] < n:
-            return busquedaDicotomica(l[(len(l)-1)//2+1:],n)
-    else: return None
+        elif l[(len(l)-1)//2][0] > s[0]:
+            return busquedaDicotomica(l[:(len(l)-1)//2],s)
+        elif l[(len(l)-1)//2][0] < s[0]:
+            return busquedaDicotomica(l[(len(l)-1)//2+1:],s)
 
 def test8():
-    assert busquedaDicotomica([1,2,3,4],4) == True
-    assert busquedaDicotomica([2,3,4,5,6],1) == False
-    assert busquedaDicotomica([6,7,8,9],6) == True
-    assert busquedaDicotomica([6,7,5,8,9],6) == None
+    assert busquedaDicotomica(["abc","bcd","chau","hola"],"bcd") == True
+    assert busquedaDicotomica(["abc","bcd","chau","hola"],"bcr") == True
+
 
 def caracteres(s):
     if len(s) == 0:
@@ -122,17 +141,17 @@ def test9():
     assert caracteres("mi nombre es: ") == None
 
 
-def contar(s,c):
+def contar(c,s):
     if len(s) == 0:
         return 0
     if s[0] == c:
-        return 1 + contar(s[1:],c)
-    else: return contar(s[1:],c)
+        return 1 + contar(c,s[1:])
+    else: return contar(c,s[1:])
 
 def test10():
-    assert contar("hola","g") == 0
-    assert contar("como estas","o") == 2
-    assert contar("mi nombre es: "," ") == 3
+    assert contar("g","hola") == 0
+    assert contar("o","como estas") == 2
+    assert contar(" ","mi nombre es: ") == 3
 
 def vocales(s):
     if len(s) == 0:
